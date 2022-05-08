@@ -1,0 +1,70 @@
+<div class="fs-4">Hero Form</div>
+Submit = {{ submitted }}
+<hr>
+<div [hidden]="submitted" >
+  <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-label"
+        id="name"
+        required
+        [(ngModel)]="model.name"
+        name="name"
+        #name="ngModel"
+      />
+      <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        Un nom est requi
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="alterEgo">Alter Ego</label>
+      <input
+        type="text"
+        required
+        id="alterEgo"
+        name="alterEgo"
+        [(ngModel)]="model.alterEgo"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="power"> Hero power </label>
+      <select
+        class="form-control"
+        id="power"
+        name="power"
+        [(ngModel)]="model.power"
+        required
+      >
+        <option *ngFor="let pow of powers" value="pow">{{ pow }}</option>
+      </select>
+    </div>
+  </form>
+  <div
+    type="button"
+    role="button"
+    class="btn btn-outline-primary"
+    (click)="newHero(); heroForm.reset()"
+  >
+    Nouveau Hero
+  </div>
+  <button
+    type="submit"
+    (click)="onSubmit()"
+    class="btn btn-success"
+    [disabled]="!heroForm.form.valid"
+  >
+    Submit
+  </button>
+</div>
+<div [hidden]="!submitted" >
+  <div class="fs-e"> vous avez envoyer cela</div>
+  <div> {{ model | json }} </div>
+  <button type="button" class="btn btn-primary" (click)="submitted=false" >Edit</button>
+
+</div>
+
+<!-- j'en suis ici : https://angular.io/guide/forms#show-and-hide-validation-error-messages-->
